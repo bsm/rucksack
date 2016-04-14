@@ -1,4 +1,24 @@
-package met
+/*
+Package runtime collects runtime metrics, if included.
+
+	package main
+
+	import(
+		"github.com/bsm/rucksack/met"
+		_ "github.com/bsm/rucksack/met/runtime"
+	)
+
+	func main() {
+		sleep := make(chan struct{})
+		<-sleep
+	}
+
+Run with:
+
+	MET_NAME=myapp MET_RUNTIME=mem,heap,gc go run main.go
+
+*/
+package runtime
 
 import (
 	"os"
