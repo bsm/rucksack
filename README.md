@@ -26,7 +26,7 @@ import (
 ```
 
 Recommended ENV:
-- `LOG_TAGS=dc:eu1,region:eu`
+- `LOG_TAGS=foo:bar,baz:qux`
 - `LOG_KAFKA_TOPIC=projectname` (with included [log/kafka](https://godoc.org/github.com/bsm/rucksack/log/kafka))
 - `LOG_KAFKA_ADDRS=broker-1:9092,broker-2:9092` (with included [log/kafka](https://godoc.org/github.com/bsm/rucksack/log/kafka))
 
@@ -49,7 +49,7 @@ import (
 
 Required/recommended ENV:
 - `MET_NAME=projectname` (required)
-- `MET_TAGS=dc:eu1,region:eu`
+- `MET_TAGS=foo:bar,baz:qux`
 - `MET_DATADOG=datadog-token` (with included [met/datadog](https://godoc.org/github.com/bsm/rucksack/met/datadog); flush metrics to [datadog](https://www.datadoghq.com/))
 
 Optional ENV:
