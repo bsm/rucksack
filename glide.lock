@@ -1,0 +1,14 @@
+hash: d0d58233c37cc7495c9a5adb3f75474db259ef866be2faadc08abf0971c53e5e
+updated: 2016-06-25T10:39:39.936690551+01:00
+imports:
+- name: github.com/bsm/instruments
+  version: e1c7b446127bc3e13c6c9461b057b205a3d950fc
+  subpackages:
+  - datadog
+- name: github.com/Sirupsen/logrus
+  version: f3cfb454f4c209e6668c95216c4744b8fddb2356
+- name: golang.org/x/sys
+  version: 62bee037599929a6e9146f29d10dd5208c43507d
+  subpackages:
+  - unix
+testImports: []
