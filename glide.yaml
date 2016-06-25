@@ -4,3 +4,4 @@ import:
 - package: github.com/bsm/instruments
   subpackages:
   - datadog
+- package: github.com/Shopify/sarama
