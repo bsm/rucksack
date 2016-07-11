@@ -34,7 +34,9 @@ var levels = make(map[string]bool)
 
 func init() {
 	for _, lev := range strings.Split(os.Getenv("MET_RUNTIME"), ",") {
-		levels[lev] = true
+		if lev != "" {
+			levels[lev] = true
+		}
 	}
 	met.Subscribe(reporter{})
 }
