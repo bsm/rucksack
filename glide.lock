@@ -1,12 +1,12 @@
 hash: 6ae64d6c769ab798952ecdce388329e136f6307c7c46dca3e31126c1750c9555
-updated: 2016-06-25T11:14:07.736820419+01:00
+updated: 2016-08-17T17:02:57.490394519+01:00
 imports:
 - name: github.com/bsm/instruments
-  version: e1c7b446127bc3e13c6c9461b057b205a3d950fc
+  version: ed1efe10a34a9e81c8f06beb3b5496b377c690f3
   subpackages:
   - datadog
 - name: github.com/davecgh/go-spew
-  version: 5215b55f46b2b919f50a1df0eaa5886afe4e3b3d
+  version: 6cf5744a041a0022271cefed95ba843f6d87fd51
   subpackages:
   - spew
 - name: github.com/eapache/go-resiliency
@@ -16,50 +16,50 @@ imports:
 - name: github.com/eapache/go-xerial-snappy
   version: bb955e01b9346ac19dc29eb16586c90ded99a98c
 - name: github.com/eapache/queue
-  version: ded5959c0d4e360646dc9e9908cff48666781367
+  version: 44cc805cf13205b55f69e14bcb69867d1ae92f98
 - name: github.com/golang/snappy
   version: d9eb7a3d35ec988b8585d4a0068e462c27d28380
 - name: github.com/klauspost/crc32
   version: 19b0b332c9e4516a6370a0456e6182c3b5036720
 - name: github.com/Shopify/sarama
-  version: 88a4afb3d18f13212477a63a78e3a57ac87830a9
+  version: 4f47ee4924e147c781bf3f9aee2f7e9845dc2532
 - name: github.com/Sirupsen/logrus
-  version: f3cfb454f4c209e6668c95216c4744b8fddb2356
+  version: 08a8a7c27e3d058a8989316a850daad1c10bf4ab
 - name: golang.org/x/sys
-  version: 62bee037599929a6e9146f29d10dd5208c43507d
+  version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:
   - unix
 testImports:
 - name: github.com/onsi/ginkgo
-  version: 059cec02d342bab423425a99b191186a03255e9e
+  version: 120efcfd33906beedc53369a8659c41cc9190e81
   subpackages:
   - config
   - internal/codelocation
+  - internal/containernode
   - internal/failer
+  - internal/leafnodes
   - internal/remote
+  - internal/spec
+  - internal/specrunner
   - internal/suite
   - internal/testingtproxy
   - internal/writer
   - reporters
   - reporters/stenographer
   - types
-  - internal/containernode
-  - internal/leafnodes
-  - internal/spec
-  - internal/specrunner
 - name: github.com/onsi/gomega
-  version: 0df7b7fdb38123c12a1f569f0affb2c2a7bd72cf
+  version: 9ed8da19f2156b87a803a8fdf6d126f627a12db1
   subpackages:
+  - format
   - internal/assertion
   - internal/asyncassertion
+  - internal/oraclematcher
   - internal/testingtsupport
   - matchers
-  - types
-  - internal/oraclematcher
-  - format
   - matchers/support/goraph/bipartitegraph
   - matchers/support/goraph/edge
   - matchers/support/goraph/node
   - matchers/support/goraph/util
+  - types
 - name: gopkg.in/yaml.v2
-  version: a83829b6f1293c91addabc89d0571c246397bbf4
+  version: e4d366fc3c7938e2958e662b4258c7a89e1f0e3e

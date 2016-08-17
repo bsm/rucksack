@@ -1,6 +1,9 @@
-PKG:=$(shell glide nv)
+PKG=$(shell glide nv)
 
-default: test
+default: vet test
 
 test:
 	go test $(PKG)
+
+vet:
+	go vet $(PKG)
