@@ -56,6 +56,9 @@ func Infoln(args ...interface{})                            { std.Infoln(args...
 func Print(args ...interface{})                             { std.Print(args...) }
 func Printf(format string, args ...interface{})             { std.Printf(format, args...) }
 func Println(args ...interface{})                           { std.Println(args...) }
+func Fatal(args ...interface{})                             { std.Fatal(args...) }
+func Fatalf(format string, args ...interface{})             { std.Fatalf(format, args...) }
+func Fatalln(args ...interface{})                           { std.Fatalln(args...) }
 func Warn(args ...interface{})                              { std.Warn(args...) }
 func Warnf(format string, args ...interface{})              { std.Warnf(format, args...) }
 func Warnln(args ...interface{})                            { std.Warnln(args...) }
