@@ -13,9 +13,6 @@ import (
 var registry = instruments.NewUnstarted("")
 var hostname string
 
-// Hostname returns the parsed hostname
-func Hostname() string { return hostname }
-
 // Subscribe attaches reporters/hooks to the met registry
 func Subscribe(rep instruments.Reporter) {
 	registry.Subscribe(rep)
@@ -41,6 +38,12 @@ func RateScale(name string, tags []string, d time.Duration) *instruments.Rate {
 func Timer(name string, tags []string, size int64) *instruments.Timer {
 	return registry.Timer(name, tags, size)
 }
+
+// Hostname returns the parsed hostname
+func Hostname() string { return hostname }
+
+// AddTags alows to add global tags
+func AddTags(tags ...string) { registry.AddTags(tags...) }
 
 // --------------------------------------------------------------------
 
