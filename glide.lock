@@ -1,12 +1,12 @@
 hash: 6ae64d6c769ab798952ecdce388329e136f6307c7c46dca3e31126c1750c9555
-updated: 2016-08-17T17:02:57.490394519+01:00
+updated: 2016-09-16T12:41:41.472824851+01:00
 imports:
 - name: github.com/bsm/instruments
-  version: ed1efe10a34a9e81c8f06beb3b5496b377c690f3
+  version: 7318b4b987aacbd62381222ff0244887b88cc6b9
   subpackages:
   - datadog
 - name: github.com/davecgh/go-spew
-  version: 6cf5744a041a0022271cefed95ba843f6d87fd51
+  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
   subpackages:
   - spew
 - name: github.com/eapache/go-resiliency
@@ -21,45 +21,62 @@ imports:
   version: d9eb7a3d35ec988b8585d4a0068e462c27d28380
 - name: github.com/klauspost/crc32
   version: 19b0b332c9e4516a6370a0456e6182c3b5036720
+- name: github.com/rcrowley/go-metrics
+  version: b71dba47c7bf0374dfe3b67da7b5b702fa160a15
 - name: github.com/Shopify/sarama
-  version: 4f47ee4924e147c781bf3f9aee2f7e9845dc2532
+  version: 482c471fbf73dc2ac66945187f811581f008c24a
 - name: github.com/Sirupsen/logrus
-  version: 08a8a7c27e3d058a8989316a850daad1c10bf4ab
+  version: 3ec0642a7fb6488f65b06f9040adc67e3990296a
+- name: github.com/stathat/go
+  version: 74669b9f388d9d788c97399a0824adbfee78400e
 - name: golang.org/x/sys
-  version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
+  version: 30de6d19a3bd89a5f38ae4028e23aaa5582648af
   subpackages:
   - unix
+- name: gopkg.in/airbrake/gobrake.v2
+  version: 5d77bd50d083834501349f8be70197b26963674d
+- name: gopkg.in/gemnasium/logrus-airbrake-hook.v2
+  version: 31e6fd4bd5a98d8ee7673d24bc54ec73c31810dd
 testImports:
+- name: github.com/golang/protobuf
+  version: 1f49d83d9aa00e6ce4fc8258c71cc7786aec968a
+  subpackages:
+  - proto
+  - proto/testdata
+  - ptypes/any
 - name: github.com/onsi/ginkgo
-  version: 120efcfd33906beedc53369a8659c41cc9190e81
+  version: 46c87bb63f2d8d62b3076873b7a84da124da72ce
   subpackages:
   - config
   - internal/codelocation
-  - internal/containernode
   - internal/failer
-  - internal/leafnodes
   - internal/remote
-  - internal/spec
-  - internal/specrunner
   - internal/suite
   - internal/testingtproxy
   - internal/writer
   - reporters
   - reporters/stenographer
   - types
+  - ginkgo/convert
+  - ginkgo/interrupthandler
+  - ginkgo/nodot
+  - ginkgo/testrunner
+  - ginkgo/testsuite
+  - ginkgo/watch
+  - internal/leafnodes
 - name: github.com/onsi/gomega
-  version: 9ed8da19f2156b87a803a8fdf6d126f627a12db1
+  version: d59fa0ac68bb5dd932ee8d24eed631cdd519efc3
   subpackages:
-  - format
   - internal/assertion
   - internal/asyncassertion
-  - internal/oraclematcher
   - internal/testingtsupport
   - matchers
+  - types
+  - gstruct/errors
+  - internal/oraclematcher
   - matchers/support/goraph/bipartitegraph
   - matchers/support/goraph/edge
   - matchers/support/goraph/node
   - matchers/support/goraph/util
-  - types
 - name: gopkg.in/yaml.v2
-  version: e4d366fc3c7938e2958e662b4258c7a89e1f0e3e
+  version: 31c299268d302dd0aa9a0dcf765a3d58971ac83f

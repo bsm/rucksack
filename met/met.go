@@ -11,6 +11,10 @@ import (
 )
 
 var registry = instruments.NewUnstarted("")
+var hostname string
+
+// Hostname returns the parsed hostname
+func Hostname() string { return hostname }
 
 // Subscribe attaches reporters/hooks to the met registry
 func Subscribe(rep instruments.Reporter) {
@@ -49,8 +53,18 @@ func init() {
 
 	// Parse tags
 	var tags []string
-	if host := hostname(); host != "" {
-		tags = append(tags, "host:"+host)
+
+	// Parse hostname
+	hostname = os.Getenv("HOST")
+	if hostname == "" {
+		hostname, _ = os.Hostname()
+	}
+	if pos := strings.Index(hostname, "."); pos > -1 {
+		hostname = hostname[:pos]
+	}
+
+	if hostname != "" {
+		tags = append(tags, "host:"+hostname)
 	}
 	if port := os.Getenv("PORT"); port != "" {
 		tags = append(tags, "port:"+port)
@@ -62,15 +76,4 @@ func init() {
 	// Create registry
 	registry = instruments.New(time.Minute, name+".", tags...)
 	runtime.SetFinalizer(registry, func(r *instruments.Registry) { _ = r.Close() })
-}
-
-func hostname() string {
-	host := os.Getenv("HOST")
-	if host == "" {
-		host, _ = os.Hostname()
-	}
-	if pos := strings.Index(host, "."); pos > -1 {
-		host = host[:pos]
-	}
-	return host
 }

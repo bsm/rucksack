@@ -29,6 +29,8 @@ import (
 
 func init() {
 	if token := os.Getenv("MET_DATADOG"); token != "" {
-		met.Subscribe(datadog.New(token))
+		client := datadog.New(token)
+		client.Hostname = met.Hostname()
+		met.Subscribe(client)
 	}
 }
