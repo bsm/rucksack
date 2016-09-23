@@ -76,9 +76,9 @@ func (reporter) Prep() error {
 	numCgoCalls = curNumCgoCalls
 	return nil
 }
-func (reporter) Discrete(_ string, _ []string, _ instruments.Discrete) error { return nil }
-func (reporter) Sample(_ string, _ []string, _ instruments.Sample) error     { return nil }
-func (reporter) Flush() error                                                { return nil }
+func (reporter) Discrete(_ string, _ []string, _ int64) error                 { return nil }
+func (reporter) Sample(_ string, _ []string, _ instruments.SampleSlice) error { return nil }
+func (reporter) Flush() error                                                 { return nil }
 
 func reportMemStats() {
 	met.Gauge("runtime.mem.alloc", nil).Update(int64(memStats.Alloc))

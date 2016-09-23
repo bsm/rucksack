@@ -35,7 +35,7 @@ func RatePerMin(name string, tags []string) *instruments.Rate {
 func RateScale(name string, tags []string, d time.Duration) *instruments.Rate {
 	return registry.RateScale(name, tags, d)
 }
-func Timer(name string, tags []string, size int64) *instruments.Timer {
+func Timer(name string, tags []string, size int) *instruments.Timer {
 	return registry.Timer(name, tags, size)
 }
 
