@@ -105,7 +105,7 @@ func reportHeapStats() {
 func reportGCStats() {
 	met.Gauge("runtime.gc.next", nil).Update(int64(memStats.NextGC))
 	met.Gauge("runtime.gc.last", nil).Update(int64(memStats.LastGC))
-	met.RatePerSec("runtime.gc.num", nil).Update(int64(memStats.NumGC - numGC))
+	met.RatePerMin("runtime.gc.num", nil).Update(int64(memStats.NumGC - numGC))
 	met.Gauge("runtime.gc.cpu", nil).Update(int64(memStats.GCCPUFraction * 1000))
 
 	i := numGC % uint32(len(memStats.PauseNs))
