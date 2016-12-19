@@ -51,6 +51,9 @@ func NewProducer(addrs []string, topic string, level logrus.Level, format logrus
 	conf := sarama.NewConfig()
 	conf.Producer.RequiredAcks = sarama.NoResponse
 	conf.Producer.Compression = sarama.CompressionSnappy
+	conf.Producer.Return.Successes = false
+	conf.Producer.Return.Errors = false
+	conf.ChannelBufferSize = 1024
 
 	ap, err := sarama.NewAsyncProducer(addrs, conf)
 	if err != nil {

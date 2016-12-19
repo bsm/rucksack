@@ -1,12 +1,12 @@
 hash: 6ae64d6c769ab798952ecdce388329e136f6307c7c46dca3e31126c1750c9555
-updated: 2016-09-23T09:43:04.258955145+01:00
+updated: 2016-12-19T12:08:19.284147957Z
 imports:
 - name: github.com/bsm/instruments
   version: 732fb5fb83cc937d977b2a8ac9299349c697e60f
   subpackages:
   - datadog
 - name: github.com/davecgh/go-spew
-  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
+  version: 346938d642f2ec3594ed81d874461961cd0faa76
   subpackages:
   - spew
 - name: github.com/eapache/go-resiliency
@@ -20,20 +20,18 @@ imports:
 - name: github.com/golang/snappy
   version: d9eb7a3d35ec988b8585d4a0068e462c27d28380
 - name: github.com/klauspost/crc32
-  version: 19b0b332c9e4516a6370a0456e6182c3b5036720
-- name: github.com/rcrowley/go-metrics
-  version: ab2277b1c5d15c3cba104e9cbddbdfc622df5ad8
+  version: cb6bfca970f6908083f26f39a79009d608efd5cd
 - name: github.com/Shopify/sarama
-  version: af0513c4d97979eb876d201391fac6475ec08268
+  version: bd61cae2be85fa6ff40eb23dcdd24567967ac2ae
 - name: github.com/Sirupsen/logrus
-  version: 3ec0642a7fb6488f65b06f9040adc67e3990296a
+  version: d26492970760ca5d33129d2d799e34be5c4782eb
 - name: golang.org/x/sys
-  version: 8f0908ab3b2457e2e15403d3697c9ef5cb4b57a9
+  version: 478fcf54317e52ab69f40bb4c7a1520288d7f7ea
   subpackages:
   - unix
 testImports:
 - name: github.com/onsi/ginkgo
-  version: 46c87bb63f2d8d62b3076873b7a84da124da72ce
+  version: 00054c0bb96fc880d4e0be1b90937fad438c5290
   subpackages:
   - config
   - internal/codelocation
@@ -48,9 +46,11 @@ testImports:
   - internal/writer
   - reporters
   - reporters/stenographer
+  - reporters/stenographer/support/go-colorable
+  - reporters/stenographer/support/go-isatty
   - types
 - name: github.com/onsi/gomega
-  version: d59fa0ac68bb5dd932ee8d24eed631cdd519efc3
+  version: f1f0f388b31eca4e2cbe7a6dd8a3a1dfddda5b1c
   subpackages:
   - format
   - internal/assertion
@@ -64,4 +64,4 @@ testImports:
   - matchers/support/goraph/util
   - types
 - name: gopkg.in/yaml.v2
-  version: 31c299268d302dd0aa9a0dcf765a3d58971ac83f
+  version: a5b47d31c556af34a302ce5d659e6fea44d90de0
