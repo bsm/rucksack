@@ -5,6 +5,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"runtime/debug"
 
 	"github.com/Sirupsen/logrus"
 )
@@ -64,3 +65,31 @@ func Warnf(format string, args ...interface{})              { std.Warnf(format, 
 func Warnln(args ...interface{})                            { std.Warnln(args...) }
 func WithField(key string, value interface{}) *logrus.Entry { return std.WithField(key, value) }
 func WithFields(fields logrus.Fields) *logrus.Entry         { return std.WithFields(fields) }
+
+// Panic-catcher methods
+
+// ErrorOnPanic logs error if func panics.
+//
+// Usage:
+//   func someFunc() {
+//     defer ErrorOnPanic()
+//     ... // code that may panic()
+//   }
+func ErrorOnPanic() {
+	if r := recover(); r != nil {
+		Errorf("panic: %v\n\n%s", r, debug.Stack())
+	}
+}
+
+// FatalOnPanic calls Fatal if func panics.
+//
+// Usage:
+//   func someFunc() {
+//     defer FatalOnPanic()
+//     ... // code that may panic()
+//   }
+func FatalOnPanic() {
+	if r := recover(); r != nil {
+		Fatalf("panic: %v\n\n%s", r, debug.Stack())
+	}
+}
