@@ -10,15 +10,22 @@ import (
 	"github.com/bsm/instruments"
 )
 
-var registry = instruments.NewUnstarted("")
-var hostname string
-
 // Subscribe attaches reporters/hooks to the met registry
 func Subscribe(rep instruments.Reporter) {
 	registry.Subscribe(rep)
 }
 
-// Convenience accessors to metrics
+// NewRegistry returns a new, custom registry
+func NewRegistry(name string) *instruments.Registry {
+	tags := make([]string, len(defaultTags))
+	copy(tags, defaultTags)
+	return instruments.New(time.Minute, name+".", tags...)
+}
+
+// Hostname returns the parsed hostname
+func Hostname() string { return hostname }
+
+// Convenience accessors to default registry metrics
 
 func Counter(name string, tags []string) *instruments.Counter {
 	return registry.Counter(name, tags)
@@ -39,13 +46,16 @@ func Timer(name string, tags []string, size int) *instruments.Timer {
 	return registry.Timer(name, tags, size)
 }
 
-// Hostname returns the parsed hostname
-func Hostname() string { return hostname }
-
-// AddTags alows to add global tags
+// AddTags add tags to default registry
 func AddTags(tags ...string) { registry.AddTags(tags...) }
 
 // --------------------------------------------------------------------
+
+var (
+	registry    = instruments.NewUnstarted("")
+	hostname    string
+	defaultTags []string
+)
 
 func init() {
 	// Parse the name of the app to meter
@@ -53,9 +63,6 @@ func init() {
 	if name == "" {
 		return
 	}
-
-	// Parse tags
-	var tags []string
 
 	// Parse hostname
 	hostname = os.Getenv("HOST")
@@ -67,16 +74,16 @@ func init() {
 	}
 
 	if hostname != "" {
-		tags = append(tags, "host:"+hostname)
+		defaultTags = append(defaultTags, "host:"+hostname)
 	}
 	if port := os.Getenv("PORT"); port != "" {
-		tags = append(tags, "port:"+port)
+		defaultTags = append(defaultTags, "port:"+port)
 	}
 	if othr := os.Getenv("MET_TAGS"); othr != "" {
-		tags = append(tags, strings.Split(othr, ",")...)
+		defaultTags = append(defaultTags, strings.Split(othr, ",")...)
 	}
 
 	// Create registry
-	registry = instruments.New(time.Minute, name+".", tags...)
+	registry = NewRegistry(name)
 	runtime.SetFinalizer(registry, func(r *instruments.Registry) { _ = r.Close() })
 }
