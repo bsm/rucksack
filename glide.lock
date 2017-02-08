@@ -1,8 +1,8 @@
 hash: 6ae64d6c769ab798952ecdce388329e136f6307c7c46dca3e31126c1750c9555
-updated: 2017-01-25T10:57:59.956191461Z
+updated: 2017-02-08T14:12:24.574409918Z
 imports:
 - name: github.com/bsm/instruments
-  version: 732fb5fb83cc937d977b2a8ac9299349c697e60f
+  version: 0138fd37ab97863c7760b3c7848b0f250d77ee18
   subpackages:
   - datadog
 - name: github.com/davecgh/go-spew
@@ -30,16 +30,16 @@ imports:
 - name: github.com/rcrowley/go-metrics
   version: 1f30fe9094a513ce4c700b9a54458bbb0c96996c
 - name: github.com/Shopify/sarama
-  version: 0fb560e5f7fbcaee2f75e3c34174320709f69944
+  version: df4198a76011691a0353dfcac98047d18e5c4388
 - name: github.com/Sirupsen/logrus
-  version: 61e43dc76f7ee59a82bdf3d71033dc12bea4c77d
+  version: 3f603f494d61c73457fb234161d8982b9f0f0b71
 - name: golang.org/x/sys
-  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
+  version: 7a6e5648d140666db5d920909e082ca00a87ba2c
   subpackages:
   - unix
 testImports:
 - name: github.com/onsi/ginkgo
-  version: a23f924ce96d61f963fb6219b8ff069d8d768cc2
+  version: bb93381d543b0e5725244abe752214a110791d01
   subpackages:
   - config
   - internal/codelocation
@@ -72,4 +72,4 @@ testImports:
   - matchers/support/goraph/util
   - types
 - name: gopkg.in/yaml.v2
-  version: 14227de293ca979cf205cd88769fe71ed96a97e2
+  version: 4c78c975fe7c825c6d1466c42be594d1d6f3aba6

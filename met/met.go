@@ -10,11 +10,6 @@ import (
 	"github.com/bsm/instruments"
 )
 
-// Subscribe attaches reporters/hooks to the met registry
-func Subscribe(rep instruments.Reporter) {
-	registry.Subscribe(rep)
-}
-
 // NewRegistry returns a new, custom registry
 func NewRegistry(name string) *instruments.Registry {
 	tags := make([]string, len(defaultTags))
@@ -24,6 +19,18 @@ func NewRegistry(name string) *instruments.Registry {
 
 // Hostname returns the parsed hostname
 func Hostname() string { return hostname }
+
+// --------------------------------------------------------------------
+
+// Subscribe attaches reporters/hooks to the met registry
+func Subscribe(rep instruments.Reporter) {
+	registry.Subscribe(rep)
+}
+
+// AddTags add tags to default registry
+func AddTags(tags ...string) {
+	registry.AddTags(tags...)
+}
 
 // Convenience accessors to default registry metrics
 
@@ -42,12 +49,12 @@ func RatePerMin(name string, tags []string) *instruments.Rate {
 func RateScale(name string, tags []string, d time.Duration) *instruments.Rate {
 	return registry.RateScale(name, tags, d)
 }
+func Reservoir(name string, tags []string, size int) *instruments.Reservoir {
+	return registry.Reservoir(name, tags, size)
+}
 func Timer(name string, tags []string, size int) *instruments.Timer {
 	return registry.Timer(name, tags, size)
 }
-
-// AddTags add tags to default registry
-func AddTags(tags ...string) { registry.AddTags(tags...) }
 
 // --------------------------------------------------------------------
 
