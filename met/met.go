@@ -10,13 +10,6 @@ import (
 	"github.com/bsm/instruments"
 )
 
-// NewRegistry returns a new, custom registry
-func NewRegistry(name string) *instruments.Registry {
-	tags := make([]string, len(defaultTags))
-	copy(tags, defaultTags)
-	return instruments.New(time.Minute, name+".", tags...)
-}
-
 // Hostname returns the parsed hostname
 func Hostname() string { return hostname }
 
@@ -59,9 +52,8 @@ func Timer(name string, tags []string, size int) *instruments.Timer {
 // --------------------------------------------------------------------
 
 var (
-	registry    = instruments.NewUnstarted("")
-	hostname    string
-	defaultTags []string
+	registry = instruments.NewUnstarted("")
+	hostname string
 )
 
 func init() {
@@ -80,17 +72,19 @@ func init() {
 		hostname = hostname[:pos]
 	}
 
+	// Parse tags
+	var tags []string
 	if hostname != "" {
-		defaultTags = append(defaultTags, "host:"+hostname)
+		tags = append(tags, "host:"+hostname)
 	}
 	if port := os.Getenv("PORT"); port != "" {
-		defaultTags = append(defaultTags, "port:"+port)
+		tags = append(tags, "port:"+port)
 	}
 	if othr := os.Getenv("MET_TAGS"); othr != "" {
-		defaultTags = append(defaultTags, strings.Split(othr, ",")...)
+		tags = append(tags, strings.Split(othr, ",")...)
 	}
 
 	// Create registry
-	registry = NewRegistry(name)
+	registry = instruments.New(time.Minute, name+".", tags...)
 	runtime.SetFinalizer(registry, func(r *instruments.Registry) { _ = r.Close() })
 }
