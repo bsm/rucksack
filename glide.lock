@@ -1,8 +1,10 @@
-hash: 6ae64d6c769ab798952ecdce388329e136f6307c7c46dca3e31126c1750c9555
-updated: 2017-02-15T16:41:31.984916555Z
+hash: 3ccd134b0ad9b94ee955c576a1dee2d6b8a0ee91a2a0612b60131469062f9609
+updated: 2017-02-20T13:51:39.387252635Z
 imports:
+- name: github.com/bsm/histogram
+  version: 8c4fcfcff7b1352a78170574dd070d17b425a350
 - name: github.com/bsm/instruments
-  version: 68a994df6e5921fe323d72d4e55ddb95a73fa1f6
+  version: 88c2ed7d08faf43e1cce6a21eeb14f2f0653f915
   subpackages:
   - datadog
 - name: github.com/davecgh/go-spew
@@ -30,9 +32,9 @@ imports:
 - name: github.com/rcrowley/go-metrics
   version: 1f30fe9094a513ce4c700b9a54458bbb0c96996c
 - name: github.com/Shopify/sarama
-  version: 1416bd78f804d523005322194994f08c2a0ad797
+  version: 0fb560e5f7fbcaee2f75e3c34174320709f69944
 - name: github.com/Sirupsen/logrus
-  version: 3f603f494d61c73457fb234161d8982b9f0f0b71
+  version: c078b1e43f58d563c74cebe63c85789e76ddb627
 - name: golang.org/x/sys
   version: e24f485414aeafb646f6fca458b0bf869c0880a1
   subpackages:
