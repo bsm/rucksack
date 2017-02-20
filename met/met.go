@@ -42,11 +42,11 @@ func RatePerMin(name string, tags []string) *instruments.Rate {
 func RateScale(name string, tags []string, d time.Duration) *instruments.Rate {
 	return registry.RateScale(name, tags, d)
 }
-func Reservoir(name string, tags []string, size int) *instruments.Reservoir {
-	return registry.Reservoir(name, tags, size)
+func Reservoir(name string, tags []string) *instruments.Reservoir {
+	return registry.Reservoir(name, tags)
 }
-func Timer(name string, tags []string, size int) *instruments.Timer {
-	return registry.Timer(name, tags, size)
+func Timer(name string, tags []string) *instruments.Timer {
+	return registry.Timer(name, tags)
 }
 
 // --------------------------------------------------------------------

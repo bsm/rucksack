@@ -58,7 +58,7 @@ func (reporter) Prep() error {
 	if len(levels) > 0 {
 		t := time.Now()
 		runtime.ReadMemStats(&memStats) // This takes 50-200us.
-		met.Timer("runtime.readstats", nil, 10).Since(t)
+		met.Timer("runtime.readstats", nil).Since(t)
 	}
 	if levels["mem"] || levels["all"] {
 		reportMemStats()
@@ -71,22 +71,22 @@ func (reporter) Prep() error {
 	}
 
 	curNumCgoCalls := runtime.NumCgoCall()
-	met.Gauge("runtime.cgocalls", nil).Update(int64(curNumCgoCalls - numCgoCalls))
-	met.Gauge("runtime.goroutines", nil).Update(int64(runtime.NumGoroutine()))
+	met.Gauge("runtime.cgocalls", nil).Update(float64(curNumCgoCalls - numCgoCalls))
+	met.Gauge("runtime.goroutines", nil).Update(float64(runtime.NumGoroutine()))
 	numCgoCalls = curNumCgoCalls
 	return nil
 }
-func (reporter) Discrete(_ string, _ []string, _ int64) error                 { return nil }
-func (reporter) Sample(_ string, _ []string, _ instruments.SampleSlice) error { return nil }
-func (reporter) Flush() error                                                 { return nil }
+func (reporter) Discrete(_ string, _ []string, _ float64) error                { return nil }
+func (reporter) Sample(_ string, _ []string, _ instruments.Distribution) error { return nil }
+func (reporter) Flush() error                                                  { return nil }
 
 func reportMemStats() {
-	met.Gauge("runtime.mem.alloc", nil).Update(int64(memStats.Alloc))
-	met.Gauge("runtime.mem.alloc.total", nil).Update(int64(memStats.TotalAlloc))
-	met.Gauge("runtime.mem.sys", nil).Update(int64(memStats.Sys))
-	met.RatePerSec("runtime.mem.lookups", nil).Update(int64(memStats.Lookups - lookups))
-	met.RatePerSec("runtime.mem.mallocs", nil).Update(int64(memStats.Mallocs - mallocs))
-	met.RatePerSec("runtime.mem.frees", nil).Update(int64(memStats.Frees - frees))
+	met.Gauge("runtime.mem.alloc", nil).Update(float64(memStats.Alloc))
+	met.Gauge("runtime.mem.alloc.total", nil).Update(float64(memStats.TotalAlloc))
+	met.Gauge("runtime.mem.sys", nil).Update(float64(memStats.Sys))
+	met.RatePerSec("runtime.mem.lookups", nil).Update(float64(memStats.Lookups - lookups))
+	met.RatePerSec("runtime.mem.mallocs", nil).Update(float64(memStats.Mallocs - mallocs))
+	met.RatePerSec("runtime.mem.frees", nil).Update(float64(memStats.Frees - frees))
 
 	frees = memStats.Frees
 	lookups = memStats.Lookups
@@ -94,22 +94,22 @@ func reportMemStats() {
 }
 
 func reportHeapStats() {
-	met.Gauge("runtime.heap.alloc", nil).Update(int64(memStats.HeapAlloc))
-	met.Gauge("runtime.heap.sys", nil).Update(int64(memStats.HeapSys))
-	met.Gauge("runtime.heap.idle", nil).Update(int64(memStats.HeapIdle))
-	met.Gauge("runtime.heap.inuse", nil).Update(int64(memStats.HeapInuse))
-	met.Gauge("runtime.heap.released", nil).Update(int64(memStats.HeapReleased))
-	met.Gauge("runtime.heap.objects", nil).Update(int64(memStats.HeapObjects))
+	met.Gauge("runtime.heap.alloc", nil).Update(float64(memStats.HeapAlloc))
+	met.Gauge("runtime.heap.sys", nil).Update(float64(memStats.HeapSys))
+	met.Gauge("runtime.heap.idle", nil).Update(float64(memStats.HeapIdle))
+	met.Gauge("runtime.heap.inuse", nil).Update(float64(memStats.HeapInuse))
+	met.Gauge("runtime.heap.released", nil).Update(float64(memStats.HeapReleased))
+	met.Gauge("runtime.heap.objects", nil).Update(float64(memStats.HeapObjects))
 }
 
 func reportGCStats() {
-	met.Gauge("runtime.gc.next", nil).Update(int64(memStats.NextGC))
-	met.Gauge("runtime.gc.last", nil).Update(int64(memStats.LastGC))
-	met.RatePerMin("runtime.gc.num", nil).Update(int64(memStats.NumGC - numGC))
-	met.Gauge("runtime.gc.cpu", nil).Update(int64(memStats.GCCPUFraction * 1000))
+	met.Gauge("runtime.gc.next", nil).Update(float64(memStats.NextGC))
+	met.Gauge("runtime.gc.last", nil).Update(float64(memStats.LastGC))
+	met.RatePerMin("runtime.gc.num", nil).Update(float64(memStats.NumGC - numGC))
+	met.Gauge("runtime.gc.cpu", nil).Update(memStats.GCCPUFraction * 1000)
 
 	i := numGC % uint32(len(memStats.PauseNs))
-	pauseGC := met.Timer("runtime.gc.pause", nil, 10)
+	pauseGC := met.Timer("runtime.gc.pause", nil)
 	if memStats.NumGC-numGC >= uint32(len(memStats.PauseNs)) {
 		for i = 0; i < uint32(len(memStats.PauseNs)); i++ {
 			pauseGC.Update(time.Duration(memStats.PauseNs[i]))
@@ -126,7 +126,7 @@ func reportGCStats() {
 			pauseGC.Update(time.Duration(memStats.PauseNs[i]))
 		}
 	}
-	met.Gauge("runtime.gc.pause.total", nil).Update(int64(memStats.PauseTotalNs))
+	met.Gauge("runtime.gc.pause.total", nil).Update(float64(memStats.PauseTotalNs) / 1e6)
 
 	numGC = memStats.NumGC
 }
