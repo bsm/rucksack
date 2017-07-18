@@ -1,4 +1,4 @@
-PKG=$(shell glide nv)
+PKG=$(shell go list ./... | grep -v vendor)
 
 default: vet test
 
