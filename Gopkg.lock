@@ -89,13 +89,13 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["html","html/atom","html/charset"]
-  revision = "b3756b4b77d7b13260a0a2ec658753cf48922eac"
+  revision = "02ac38e2528ff4adea90f184d71a3faa04b4b1b0"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "4cd6d1a821c7175768725b55ca82f14683a29ea4"
+  revision = "7a4fde3fda8ef580a89dbae8138c26041be14299"
 
 [[projects]]
   branch = "master"
