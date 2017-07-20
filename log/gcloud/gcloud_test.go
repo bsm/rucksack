@@ -16,13 +16,13 @@ var _ = Describe("Formatter", func() {
 	It("should format", func() {
 		data, err := subject.Format(&logrus.Entry{
 			Data:    logrus.Fields{"str": "value", "num": 34, "err": errors.New("doh!")},
-			Time:    time.Unix(15151515, 0),
+			Time:    time.Unix(1515151515, 0),
 			Level:   logrus.WarnLevel,
 			Message: "something happened",
 		})
 		Expect(err).NotTo(HaveOccurred())
 		Expect(data).To(MatchJSON(`{
-      "timestamp": "1970-06-25T09:45:15+01:00",
+      "timestamp": "2018-01-05T11:25:15Z",
       "severity": "WARNING",
       "textPayload": "something happened",
       "labels": {
@@ -31,6 +31,7 @@ var _ = Describe("Formatter", func() {
         "str": "value"
       }
     }`))
+		Expect(data).To(HaveSuffix("}\n"))
 	})
 
 })

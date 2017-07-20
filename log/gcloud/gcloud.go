@@ -17,6 +17,7 @@ package gcloud
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 	"time"
 
@@ -38,12 +39,17 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 			fields[k] = v
 		}
 	}
-	return json.Marshal(&loggingEntry{
+
+	line, err := json.Marshal(&loggingEntry{
 		Timestamp: entry.Time,
 		Severity:  strings.ToUpper(entry.Level.String()),
 		Payload:   entry.Message,
 		Labels:    fields,
 	})
+	if err != nil {
+		return nil, fmt.Errorf("Failed to marshal fields to JSON, %v", err)
+	}
+	return append(line, '\n'), nil
 }
 
 type loggingEntry struct {
