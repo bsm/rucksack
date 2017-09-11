@@ -87,13 +87,18 @@ func (p *producer) Levels() []logrus.Level {
 
 // Fire implements github.com/bsm/rucksack/log.Hook
 func (p *producer) Fire(entry *logrus.Entry) error {
-	for key, value := range p.tags {
-		if _, ok := entry.Data[key]; !ok {
-			entry.Data[key] = value
-		}
+	data := make(logrus.Fields, len(entry.Data)+len(p.tags))
+	for k, v := range p.tags {
+		data[k] = v
+	}
+	for k, v := range entry.Data {
+		data[k] = v
 	}
 
-	line, err := p.format.Format(entry)
+	line, err := p.format.Format(&logrus.Entry{
+		Logger: entry.Logger,
+		Data:   data,
+	})
 	if err != nil {
 		return err
 	}
