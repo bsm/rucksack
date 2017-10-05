@@ -19,16 +19,3 @@
 # [[override]]
 #  name = "github.com/x/y"
 #  version = "2.4.0"
-
-
-[[constraint]]
-  name = "github.com/Shopify/sarama"
-  version = "^1.12.0"
-
-[[constraint]]
-  name = "github.com/Sirupsen/logrus"
-  version = "^1.0.0"
-
-[[constraint]]
-  name = "github.com/bsm/instruments"
-  version = "^1.3.0"
