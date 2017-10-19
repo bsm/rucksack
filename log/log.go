@@ -38,6 +38,7 @@ func SetOutput(w io.Writer) { std.base.Out = w }
 func SetFormatter(f logrus.Formatter) { std.base.Formatter = f }
 
 // AddHook installs a custom hook to the logger. Not thread-safe
+// TODO: use std.base.AddHook(hook) once https://github.com/sirupsen/logrus/pull/612 is released.
 func AddHook(hook Hook) {
 	std.hooks = append(std.hooks, hook)
 	std.base.Hooks.Add(hook)

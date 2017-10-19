@@ -96,8 +96,11 @@ func (p *producer) Fire(entry *logrus.Entry) error {
 	}
 
 	line, err := p.format.Format(&logrus.Entry{
-		Logger: entry.Logger,
-		Data:   data,
+		Logger:  entry.Logger,
+		Time:    entry.Time,
+		Level:   entry.Level,
+		Message: entry.Message,
+		Data:    data,
 	})
 	if err != nil {
 		return err
