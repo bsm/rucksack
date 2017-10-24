@@ -1,5 +1,5 @@
 /*
-Package datadog reports metrics to datadog, if included.
+Package jaeger reports metrics to Jaeger, if included.
 
   package main
 
