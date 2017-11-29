@@ -21,7 +21,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 var _ logrus.Formatter = (*Formatter)(nil)
