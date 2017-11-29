@@ -7,7 +7,7 @@ import (
 	"log"
 	"runtime/debug"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 // Hook is a mountable hook

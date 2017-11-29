@@ -35,8 +35,8 @@ import (
 	"strings"
 
 	"github.com/Shopify/sarama"
-	"github.com/Sirupsen/logrus"
 	"github.com/bsm/rucksack/log"
+	"github.com/sirupsen/logrus"
 )
 
 type producer struct {

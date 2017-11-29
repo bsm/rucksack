@@ -3,9 +3,9 @@ package kafka
 import (
 	"testing"
 
-	"github.com/Sirupsen/logrus"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/sirupsen/logrus"
 )
 
 var _ = Describe("kafka", func() {
