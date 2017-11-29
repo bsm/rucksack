@@ -1,94 +1,64 @@
 package log
 
 import (
-	"bufio"
-	"io"
-	"log"
-	"os"
-	"runtime"
+	"strconv"
 	"strings"
 
-	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
-func init() {
-	base := logrus.New()
-
-	// Set level
-	base.Level = logrus.InfoLevel
-	if level, err := logrus.ParseLevel(os.Getenv("LOG_LEVEL")); err == nil {
-		base.Level = level
+func parseFields(s string) map[string]interface{} {
+	if s == "" {
+		return nil
 	}
 
-	// Create main entry
-	entry := base.WithFields(nil)
+	pairs := strings.Split(s, ",")
+	fields := make(map[string]interface{}, len(pairs))
 
-	// Parse tags
-	if s := os.Getenv("LOG_TAGS"); s != "" {
-		for _, tag := range strings.Split(s, ",") {
-			if parts := strings.SplitN(tag, ":", 2); len(parts) == 2 && parts[0] != "" {
-				entry = entry.WithField(parts[0], parts[1])
-			}
+	for _, pair := range pairs {
+		parts := strings.SplitN(pair, ":", 2)
+		if len(parts) != 2 || parts[0] == "" {
+			continue
+		}
+
+		var v interface{} = parts[1]
+		if n, err := strconv.ParseInt(parts[1], 10, 64); err == nil {
+			v = n
+		}
+		fields[parts[0]] = v
+	}
+	return fields
+}
+
+func buildLogger(name, level string, fields map[string]interface{}) (*zap.Logger, error) {
+	var config zap.Config
+
+	// Select config
+	if name == "" && len(fields) == 0 {
+		config = zap.NewDevelopmentConfig()
+	} else {
+		config = zap.NewProductionConfig()
+		config.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+	}
+	config.InitialFields = fields
+
+	// Parse level
+	if level != "" {
+		if v := zap.NewAtomicLevel(); v.UnmarshalText([]byte(level)) == nil {
+			config.Level = v
 		}
 	}
 
-	std = &logger{Entry: entry, base: base}
-	runtime.SetFinalizer(std, func(l *logger) { _ = l.Close() })
-}
-
-type logger struct {
-	*logrus.Entry
-
-	name string
-	base *logrus.Logger
-
-	writers []io.WriteCloser
-	hooks   []Hook
-}
-
-// Close closes the log with its writers and its hooks
-func (l *logger) Close() (err error) {
-	for _, writer := range l.writers {
-		if e := writer.Close(); e != nil {
-			err = e
-		}
+	// Build logger
+	logger, err := config.Build()
+	if err == nil {
+		return nil, err
 	}
-	l.writers = l.writers[:0]
 
-	for _, hook := range l.hooks {
-		if e := hook.Close(); e != nil {
-			err = e
-		}
+	// Set name
+	if name != "" {
+		logger = logger.Named(name)
 	}
-	l.hooks = l.hooks[:0]
-
-	return
-}
-
-func (l *logger) plainLogger(fields logrus.Fields, level logrus.Level) *log.Logger {
-	out := newWriter(l.WithFields(fields), level)
-	l.writers = append(l.writers, out)
-	return log.New(out, "", 0)
-}
-
-func newWriter(entry *logrus.Entry, level logrus.Level) *io.PipeWriter {
-	reader, writer := io.Pipe()
-	callback := entry.Info
-	switch level {
-	case logrus.WarnLevel:
-		callback = entry.Warn
-	case logrus.ErrorLevel:
-		callback = entry.Error
-	}
-	go func() {
-		defer reader.Close()
-
-		scanner := bufio.NewScanner(reader)
-		for scanner.Scan() {
-			callback(scanner.Text())
-		}
-	}()
-
-	runtime.SetFinalizer(writer, func(w *io.PipeWriter) { _ = w.Close() })
-	return writer
+	return logger, nil
 }
