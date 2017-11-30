@@ -3,90 +3,81 @@ package log
 
 import (
 	"fmt"
-	"log"
 	"os"
-	"runtime"
+	"sync/atomic"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-// Hook is a mountable hook
-type Hook interface {
-	OnEntry(zapcore.Entry) error
-	Close() error
-}
-
-var std = zap.NewNop()
+var stdL atomic.Value
 
 func init() {
-	name := os.Getenv("LOG_NAME")
-	level := os.Getenv("LOG_LEVEL")
+	Replace(zap.NewExample())
+
 	fields := parseFields(os.Getenv("LOG_FIELDS"))
 	if fields == nil {
 		fields = parseFields(os.Getenv("LOG_TAGS"))
 	}
 
-	if logger, err := buildLogger(name, level, fields); err == nil {
-		std = logger
+	logger, err := buildLogger(os.Getenv("LOG_NAME"), os.Getenv("LOG_LEVEL"), fields)
+	if err == nil {
+		Replace(logger)
 	}
-	runtime.SetFinalizer(std, func(l *zap.Logger) { _ = l.Sync() })
 }
 
 // --------------------------------------------------------------------
 
-// Silence silences log output, useful in tests
-func Silence() { std = zap.NewNop() }
-
-// NewStdLogAt creates a stdlib *log.Logger at given level
-func NewStdLogAt(level zapcore.Level, fields ...zapcore.Field) (*log.Logger, error) {
-	return zap.NewStdLogAt(std.With(fields...), level)
+// L returns the global logger
+func L() *zap.Logger {
+	return stdL.Load().(*zap.Logger)
 }
 
-// AddHook installs a custom hook to the logger.
-func AddHook(hook Hook) {
-	std = std.WithOptions(zap.Hooks(hook.OnEntry))
+// Silence silences log output, useful in tests.
+func Silence() { Replace(zap.NewNop()) }
+
+// Replace allows you to replace the global logger. Example:
+//
+//   scoped := log.L().Named("worker").With(
+//     zap.String("key", "value"),
+//   )
+//   log.Replace(scoped)
+func Replace(l *zap.Logger) {
+	stdL.Store(l)
 }
 
-// Logging methods
+// Standard logging methods
 
-func Print(args ...interface{})                 { Info(args...) }
-func Printf(format string, args ...interface{}) { Infof(format, args...) }
-func Println(args ...interface{})               { Infoln(args...) }
+func Debug(args ...interface{}) { L().Debug(fmt.Sprint(args...)) }
+func Error(args ...interface{}) { L().Error(fmt.Sprint(args...)) }
+func Info(args ...interface{})  { L().Info(fmt.Sprint(args...)) }
+func Warn(args ...interface{})  { L().Warn(fmt.Sprint(args...)) }
+func Fatal(args ...interface{}) { L().Fatal(fmt.Sprint(args...)) }
 
-func Debug(args ...interface{}) { std.Debug(fmt.Sprint(args...)) }
-func Error(args ...interface{}) { std.Error(fmt.Sprint(args...)) }
-func Info(args ...interface{})  { std.Info(fmt.Sprint(args...)) }
-func Warn(args ...interface{})  { std.Warn(fmt.Sprint(args...)) }
-func Fatal(args ...interface{}) { std.Fatal(fmt.Sprint(args...)) }
+func Debugf(format string, args ...interface{}) { L().Debug(fmt.Sprintf(format, args...)) }
+func Errorf(format string, args ...interface{}) { L().Error(fmt.Sprintf(format, args...)) }
+func Infof(format string, args ...interface{})  { L().Info(fmt.Sprintf(format, args...)) }
+func Warnf(format string, args ...interface{})  { L().Warn(fmt.Sprintf(format, args...)) }
+func Fatalf(format string, args ...interface{}) { L().Fatal(fmt.Sprintf(format, args...)) }
 
-func Debugf(format string, args ...interface{}) { std.Debug(fmt.Sprintf(format, args...)) }
-func Errorf(format string, args ...interface{}) { std.Error(fmt.Sprintf(format, args...)) }
-func Infof(format string, args ...interface{})  { std.Info(fmt.Sprintf(format, args...)) }
-func Warnf(format string, args ...interface{})  { std.Warn(fmt.Sprintf(format, args...)) }
-func Fatalf(format string, args ...interface{}) { std.Fatal(fmt.Sprintf(format, args...)) }
+func Debugln(args ...interface{}) { L().Debug(fmt.Sprintln(args...)) }
+func Errorln(args ...interface{}) { L().Error(fmt.Sprintln(args...)) }
+func Infoln(args ...interface{})  { L().Info(fmt.Sprintln(args...)) }
+func Warnln(args ...interface{})  { L().Warn(fmt.Sprintln(args...)) }
+func Fatalln(args ...interface{}) { L().Fatal(fmt.Sprintln(args...)) }
 
-func Debugln(args ...interface{}) { std.Debug(fmt.Sprintln(args...)) }
-func Errorln(args ...interface{}) { std.Error(fmt.Sprintln(args...)) }
-func Infoln(args ...interface{})  { std.Info(fmt.Sprintln(args...)) }
-func Fatalln(args ...interface{}) { std.Fatal(fmt.Sprintln(args...)) }
-func Warnln(args ...interface{})  { std.Warn(fmt.Sprintln(args...)) }
-
-func Debugw(msg string, fields ...zapcore.Field) { std.Debug(msg, fields...) }
-func Errorw(msg string, fields ...zapcore.Field) { std.Error(msg, fields...) }
-func Infow(msg string, fields ...zapcore.Field)  { std.Info(msg, fields...) }
-func Warnw(msg string, fields ...zapcore.Field)  { std.Warn(msg, fields...) }
-func Fatalw(msg string, fields ...zapcore.Field) { std.Fatal(msg, fields...) }
-
-func With(fields ...zapcore.Field) *zap.Logger { return std.With(fields...) }
+func Debugw(msg string, fields ...zapcore.Field) { L().Debug(msg, fields...) }
+func Errorw(msg string, fields ...zapcore.Field) { L().Error(msg, fields...) }
+func Infow(msg string, fields ...zapcore.Field)  { L().Info(msg, fields...) }
+func Warnw(msg string, fields ...zapcore.Field)  { L().Warn(msg, fields...) }
+func Fatalw(msg string, fields ...zapcore.Field) { L().Fatal(msg, fields...) }
 
 // Panic-catcher methods
 
-// ErrorOnPanic logs error if func panics.
+// ErrorOnPanic logs error if func panics. Usage:
 //
-// Usage:
 //   func someFunc() {
-//     defer ErrorOnPanic()
+//     defer log.ErrorOnPanic()
 //     ... // code that may panic()
 //   }
 func ErrorOnPanic() {
@@ -95,15 +86,24 @@ func ErrorOnPanic() {
 	}
 }
 
-// FatalOnPanic calls Fatal if func panics.
+// FatalOnPanic calls Fatal if func panics. Usage:
 //
-// Usage:
 //   func someFunc() {
-//     defer FatalOnPanic()
+//     defer log.FatalOnPanic()
 //     ... // code that may panic()
 //   }
 func FatalOnPanic() {
 	if r := recover(); r != nil {
 		Fatal("panic", zap.String("cause", fmt.Sprint(r)), zap.Stack("stack"))
 	}
+}
+
+// Sync performs a final sync. Best added to you main function. Usage:
+//
+//   func main() {
+//     defer log.Sync()
+//     ...
+//   }
+func Sync() error {
+	return L().Sync()
 }

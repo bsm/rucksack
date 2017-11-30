@@ -52,7 +52,7 @@ func buildLogger(name, level string, fields map[string]interface{}) (*zap.Logger
 
 	// Build logger
 	logger, err := config.Build()
-	if err == nil {
+	if err != nil {
 		return nil, err
 	}
 
