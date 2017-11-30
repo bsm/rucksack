@@ -1,96 +1,109 @@
-// Package log provides a 12-factor convenience wrapper around logrus
+// Package log provides a 12-factor convenience wrapper around zap
 package log
 
 import (
-	"io"
-	"io/ioutil"
-	"log"
-	"runtime/debug"
+	"fmt"
+	"os"
+	"sync/atomic"
 
-	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
-// Hook is a mountable hook
-type Hook interface {
-	logrus.Hook
-	Close() error
+var stdL atomic.Value
+
+func init() {
+	Replace(zap.NewExample())
+
+	fields := parseFields(os.Getenv("LOG_FIELDS"))
+	if fields == nil {
+		fields = parseFields(os.Getenv("LOG_TAGS"))
+	}
+
+	logger, err := buildLogger(os.Getenv("LOG_NAME"), os.Getenv("LOG_LEVEL"), fields)
+	if err == nil {
+		Replace(logger)
+	}
 }
 
-var std *logger
+// --------------------------------------------------------------------
 
-// Silence silences log output, useful in tests
-func Silence() { SetOutput(ioutil.Discard) }
-
-// NewInfo creates a stdlib *log.Logger, always logging at INFO level
-func NewInfo(fields logrus.Fields) *log.Logger {
-	return std.plainLogger(fields, logrus.InfoLevel)
+// L returns the global logger
+func L() *zap.Logger {
+	return stdL.Load().(*zap.Logger)
 }
 
-// NewError creates a stdlib *log.Logger, always logging at ERROR level
-func NewError(fields logrus.Fields) *log.Logger {
-	return std.plainLogger(fields, logrus.ErrorLevel)
+// Silence silences log output, useful in tests.
+func Silence() { Replace(zap.NewNop()) }
+
+// Replace allows you to replace the global logger. Example:
+//
+//   scoped := log.L().Named("worker").With(
+//     zap.String("key", "value"),
+//   )
+//   log.Replace(scoped)
+func Replace(l *zap.Logger) {
+	stdL.Store(l)
 }
 
-// SetOutput sets a custom output. Not thread-safe
-func SetOutput(w io.Writer) { std.base.Out = w }
+// Standard logging methods
 
-// SetFormatter sets a custom formatter. Not thread-safe
-func SetFormatter(f logrus.Formatter) { std.base.Formatter = f }
+func Debug(args ...interface{}) { L().Debug(fmt.Sprint(args...)) }
+func Error(args ...interface{}) { L().Error(fmt.Sprint(args...)) }
+func Info(args ...interface{})  { L().Info(fmt.Sprint(args...)) }
+func Warn(args ...interface{})  { L().Warn(fmt.Sprint(args...)) }
+func Fatal(args ...interface{}) { L().Fatal(fmt.Sprint(args...)) }
 
-// AddHook installs a custom hook to the logger. Not thread-safe
-// TODO: use std.base.AddHook(hook) once https://github.com/sirupsen/logrus/pull/612 is released.
-func AddHook(hook Hook) {
-	std.hooks = append(std.hooks, hook)
-	std.base.Hooks.Add(hook)
-}
+func Debugf(format string, args ...interface{}) { L().Debug(fmt.Sprintf(format, args...)) }
+func Errorf(format string, args ...interface{}) { L().Error(fmt.Sprintf(format, args...)) }
+func Infof(format string, args ...interface{})  { L().Info(fmt.Sprintf(format, args...)) }
+func Warnf(format string, args ...interface{})  { L().Warn(fmt.Sprintf(format, args...)) }
+func Fatalf(format string, args ...interface{}) { L().Fatal(fmt.Sprintf(format, args...)) }
 
-// Logging methods
+func Debugln(args ...interface{}) { L().Debug(fmt.Sprintln(args...)) }
+func Errorln(args ...interface{}) { L().Error(fmt.Sprintln(args...)) }
+func Infoln(args ...interface{})  { L().Info(fmt.Sprintln(args...)) }
+func Warnln(args ...interface{})  { L().Warn(fmt.Sprintln(args...)) }
+func Fatalln(args ...interface{}) { L().Fatal(fmt.Sprintln(args...)) }
 
-func Debug(args ...interface{})                             { std.Debug(args...) }
-func Debugf(format string, args ...interface{})             { std.Debugf(format, args...) }
-func Debugln(args ...interface{})                           { std.Debugln(args...) }
-func Error(args ...interface{})                             { std.Error(args...) }
-func Errorf(format string, args ...interface{})             { std.Errorf(format, args...) }
-func Errorln(args ...interface{})                           { std.Errorln(args...) }
-func Info(args ...interface{})                              { std.Info(args...) }
-func Infof(format string, args ...interface{})              { std.Infof(format, args...) }
-func Infoln(args ...interface{})                            { std.Infoln(args...) }
-func Print(args ...interface{})                             { std.Print(args...) }
-func Printf(format string, args ...interface{})             { std.Printf(format, args...) }
-func Println(args ...interface{})                           { std.Println(args...) }
-func Fatal(args ...interface{})                             { std.Fatal(args...) }
-func Fatalf(format string, args ...interface{})             { std.Fatalf(format, args...) }
-func Fatalln(args ...interface{})                           { std.Fatalln(args...) }
-func Warn(args ...interface{})                              { std.Warn(args...) }
-func Warnf(format string, args ...interface{})              { std.Warnf(format, args...) }
-func Warnln(args ...interface{})                            { std.Warnln(args...) }
-func WithField(key string, value interface{}) *logrus.Entry { return std.WithField(key, value) }
-func WithFields(fields logrus.Fields) *logrus.Entry         { return std.WithFields(fields) }
+func Debugw(msg string, fields ...zapcore.Field) { L().Debug(msg, fields...) }
+func Errorw(msg string, fields ...zapcore.Field) { L().Error(msg, fields...) }
+func Infow(msg string, fields ...zapcore.Field)  { L().Info(msg, fields...) }
+func Warnw(msg string, fields ...zapcore.Field)  { L().Warn(msg, fields...) }
+func Fatalw(msg string, fields ...zapcore.Field) { L().Fatal(msg, fields...) }
 
 // Panic-catcher methods
 
-// ErrorOnPanic logs error if func panics.
+// ErrorOnPanic logs error if func panics. Usage:
 //
-// Usage:
 //   func someFunc() {
-//     defer ErrorOnPanic()
+//     defer log.ErrorOnPanic()
 //     ... // code that may panic()
 //   }
 func ErrorOnPanic() {
 	if r := recover(); r != nil {
-		Errorf("panic: %v\n\n%s", r, debug.Stack())
+		Error("panic", zap.String("cause", fmt.Sprint(r)), zap.Stack("stack"))
 	}
 }
 
-// FatalOnPanic calls Fatal if func panics.
+// FatalOnPanic calls Fatal if func panics. Usage:
 //
-// Usage:
 //   func someFunc() {
-//     defer FatalOnPanic()
+//     defer log.FatalOnPanic()
 //     ... // code that may panic()
 //   }
 func FatalOnPanic() {
 	if r := recover(); r != nil {
-		Fatalf("panic: %v\n\n%s", r, debug.Stack())
+		Fatal("panic", zap.String("cause", fmt.Sprint(r)), zap.Stack("stack"))
 	}
+}
+
+// Sync performs a final sync. Best added to you main function. Usage:
+//
+//   func main() {
+//     defer log.Sync()
+//     ...
+//   }
+func Sync() error {
+	return L().Sync()
 }
