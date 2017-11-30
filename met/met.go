@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/bsm/instruments"
+	"github.com/bsm/rucksack"
 )
 
 // Hostname returns the parsed hostname
@@ -58,13 +59,13 @@ var (
 
 func init() {
 	// Parse the name of the app to meter
-	name := os.Getenv("MET_NAME")
+	name := rucksack.Env("MET_NAME", "APP_NAME")
 	if name == "" {
 		return
 	}
 
 	// Parse hostname
-	hostname = os.Getenv("HOST")
+	hostname = rucksack.Env("HOST")
 	if hostname == "" {
 		hostname, _ = os.Hostname()
 	}
@@ -77,12 +78,10 @@ func init() {
 	if hostname != "" {
 		tags = append(tags, "host:"+hostname)
 	}
-	if port := os.Getenv("PORT"); port != "" {
+	if port := rucksack.Env("PORT"); port != "" {
 		tags = append(tags, "port:"+port)
 	}
-	if othr := os.Getenv("MET_TAGS"); othr != "" {
-		tags = append(tags, strings.Split(othr, ",")...)
-	}
+	tags = append(tags, rucksack.Tags(rucksack.Env("MET_TAGS", "APP_TAGS"))...)
 
 	// Create registry
 	registry = instruments.New(time.Minute, name+".", tags...)

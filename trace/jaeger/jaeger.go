@@ -21,15 +21,15 @@ package jaeger
 
 import (
 	"io"
-	"os"
 	"runtime"
 
+	"github.com/bsm/rucksack"
 	"github.com/bsm/rucksack/log"
 	"github.com/uber/jaeger-client-go/config"
 )
 
 func init() {
-	if name, host := os.Getenv("TRACE_NAME"), os.Getenv("TRACE_JAEGER"); name != "" && host != "" {
+	if name, host := rucksack.Env("TRACE_NAME", "APP_NAME"), rucksack.Env("TRACE_JAEGER"); name != "" && host != "" {
 		cfg := config.Configuration{
 			Sampler: &config.SamplerConfig{
 				SamplingServerURL: "http://" + host + ":5778/sampling",

@@ -3,9 +3,9 @@ package log
 
 import (
 	"fmt"
-	"os"
 	"sync/atomic"
 
+	"github.com/bsm/rucksack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -15,12 +15,11 @@ var stdL atomic.Value
 func init() {
 	Replace(zap.NewExample())
 
-	fields := parseFields(os.Getenv("LOG_FIELDS"))
-	if fields == nil {
-		fields = parseFields(os.Getenv("LOG_TAGS"))
-	}
+	name := rucksack.Env("LOG_NAME", "APP_NAME")
+	level := rucksack.Env("LOG_LEVEL")
+	fields := rucksack.Fields(rucksack.Env("LOG_TAGS", "APP_TAGS"))
 
-	logger, err := buildLogger(os.Getenv("LOG_NAME"), os.Getenv("LOG_LEVEL"), fields)
+	logger, err := buildLogger(name, level, fields)
 	if err == nil {
 		Replace(logger)
 	}
