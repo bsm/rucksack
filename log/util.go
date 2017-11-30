@@ -5,7 +5,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-func buildLogger(name, level string, fields map[string]interface{}) (*zap.Logger, error) {
+func buildLogger(name, level string, enableStackTrace bool, fields map[string]interface{}) (*zap.Logger, error) {
 	var config zap.Config
 
 	// Select config
@@ -16,6 +16,7 @@ func buildLogger(name, level string, fields map[string]interface{}) (*zap.Logger
 		config.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 	}
 	config.InitialFields = fields
+	config.DisableStacktrace = !enableStackTrace
 
 	// Parse level
 	if level != "" {

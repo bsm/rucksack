@@ -17,9 +17,10 @@ func init() {
 
 	name := rucksack.Env("LOG_NAME", "APP_NAME")
 	level := rucksack.Env("LOG_LEVEL")
+	stack := rucksack.Env("LOG_STACK") != ""
 	fields := rucksack.Fields(rucksack.Env("LOG_TAGS", "APP_TAGS"))
 
-	logger, err := buildLogger(name, level, fields)
+	logger, err := buildLogger(name, level, stack, fields)
 	if err == nil {
 		Replace(logger)
 	}
