@@ -1,37 +1,11 @@
 package log
 
 import (
-	"strconv"
-	"strings"
-
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-func parseFields(s string) map[string]interface{} {
-	if s == "" {
-		return nil
-	}
-
-	pairs := strings.Split(s, ",")
-	fields := make(map[string]interface{}, len(pairs))
-
-	for _, pair := range pairs {
-		parts := strings.SplitN(pair, ":", 2)
-		if len(parts) != 2 || parts[0] == "" {
-			continue
-		}
-
-		var v interface{} = parts[1]
-		if n, err := strconv.ParseInt(parts[1], 10, 64); err == nil {
-			v = n
-		}
-		fields[parts[0]] = v
-	}
-	return fields
-}
-
-func buildLogger(name, level string, fields map[string]interface{}) (*zap.Logger, error) {
+func buildLogger(name, level string, enableStackTrace bool, fields map[string]interface{}) (*zap.Logger, error) {
 	var config zap.Config
 
 	// Select config
@@ -42,6 +16,7 @@ func buildLogger(name, level string, fields map[string]interface{}) (*zap.Logger
 		config.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 	}
 	config.InitialFields = fields
+	config.DisableStacktrace = !enableStackTrace
 
 	// Parse level
 	if level != "" {
