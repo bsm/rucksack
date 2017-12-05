@@ -19,7 +19,7 @@ Recommended way to use:
 
 [![GoDoc](https://godoc.org/github.com/bsm/rucksack/log?status.svg)](https://godoc.org/github.com/bsm/rucksack/log)
 
-```
+```go
 import "github.com/bsm/rucksack/log"
 ```
 
@@ -31,7 +31,7 @@ ENV:
 
 Recommended way to use:
 
-```
+```go
 package main
 
 import "github.com/bsm/rucksack/log"
@@ -49,7 +49,7 @@ func main() {
 
 [![GoDoc](https://godoc.org/github.com/bsm/rucksack/met?status.svg)](https://godoc.org/github.com/bsm/rucksack/met)
 
-```
+```go
 import (
 	"github.com/bsm/rucksack/met"
 	_ "github.com/bsm/rucksack/met/datadog"
