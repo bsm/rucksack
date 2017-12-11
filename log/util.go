@@ -26,7 +26,7 @@ func buildLogger(name, level string, enableStackTrace bool, fields map[string]in
 	}
 
 	// Build logger
-	logger, err := config.Build()
+	logger, err := config.Build(zap.AddCallerSkip(1))
 	if err != nil {
 		return nil, err
 	}
