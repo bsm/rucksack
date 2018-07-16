@@ -64,6 +64,7 @@ ENV:
 
 With `_ "github.com/bsm/rucksack/met/datadog"` imported:
 - `MET_DATADOG=datadog-token` (required)
+- `MET_DATADOG_DISABLE_COMPRESSION=true` (optional, disables compression when sending data to DataDog API)
 
 With `_ "github.com/bsm/rucksack/met/runtime"` imported:
 - `MET_RUNTIME=mem,heap,gc` (used set is equivalent to `all`)
