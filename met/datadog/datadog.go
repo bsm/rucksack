@@ -31,6 +31,9 @@ func init() {
 	if token := os.Getenv("MET_DATADOG"); token != "" {
 		client := datadog.New(token)
 		client.Hostname = met.Hostname()
+		if os.Getenv("MET_DATADOG_DISABLE_COMPRESSION") != "" {
+			client.Client.DisableCompression = true
+		}
 		met.Subscribe(client)
 	}
 }
