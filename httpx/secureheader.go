@@ -22,9 +22,11 @@ func init() {
 
 func secureHeader(cfg *secureheader.Config) func(http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
-		c := new(secureheader.Config)
-		*c = *cfg
+		c := secureheaderDefaults
+		if cfg != nil {
+			c = *cfg
+		}
 		c.Next = h
-		return c
+		return &c
 	}
 }
