@@ -29,6 +29,17 @@
   revision = "3a0bb77429bd3a61596f5e8a3172445844342120"
 
 [[projects]]
+  digest = "1:c38144c2e2d2cf5592dc55f08f69b491b15f4449c54e293710fe19ea0874fa90"
+  name = "github.com/go-chi/chi"
+  packages = [
+    ".",
+    "middleware",
+  ]
+  pruneopts = "NUT"
+  revision = "b5294d10673813fac8558e7f47242bc9e61b4c25"
+  version = "v3.3.3"
+
+[[projects]]
   digest = "1:41933d387bfa3eaa6a82647914ed7044f7b8355764c24fb920892bc8c03ef0c3"
   name = "github.com/hpcloud/tail"
   packages = [
@@ -41,6 +52,14 @@
   pruneopts = "NUT"
   revision = "a30252cb686a21eb2d0b98132633053ec2f7f1e5"
   version = "v1.0.0"
+
+[[projects]]
+  digest = "1:3402f56fa39aa1c38c1f3df1a5548ba16bf9c7afa6440d108ac3220e1328d730"
+  name = "github.com/kr/secureheader"
+  packages = ["."]
+  pruneopts = "NUT"
+  revision = "9ede93442296d5ede3632c633b3255558f4e4757"
+  version = "v0.2.0"
 
 [[projects]]
   digest = "1:b12d535f03d4db1f9b4ddbccc554748cf39a15a7e921523abe91602bda90121e"
@@ -110,6 +129,14 @@
   pruneopts = "NUT"
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
+
+[[projects]]
+  digest = "1:834585e9a99fcf1444f2fbe8c5210f9c278d853b5d0fdf843413a7458264751b"
+  name = "github.com/rs/cors"
+  packages = ["."]
+  pruneopts = "NUT"
+  revision = "3fb1b69b103a84de38a19c3c6ec073dd6caa4d3f"
+  version = "v1.5.0"
 
 [[projects]]
   digest = "1:3d48c38e0eca8c66df62379c5ae7a83fb5cd839b94f241354c07ba077da7bc45"
@@ -253,9 +280,13 @@
   input-imports = [
     "github.com/bsm/instruments",
     "github.com/bsm/instruments/datadog",
+    "github.com/go-chi/chi",
+    "github.com/go-chi/chi/middleware",
+    "github.com/kr/secureheader",
     "github.com/onsi/ginkgo",
     "github.com/onsi/ginkgo/extensions/table",
     "github.com/onsi/gomega",
+    "github.com/rs/cors",
     "github.com/uber/jaeger-client-go/config",
     "go.uber.org/zap",
     "go.uber.org/zap/zapcore",
