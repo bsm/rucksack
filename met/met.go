@@ -83,7 +83,13 @@ func init() {
 	}
 	tags = append(tags, rucksack.Tags(rucksack.Env("MET_TAGS", "APP_TAGS"))...)
 
+	// Parse interval
+	interval, _ := time.ParseDuration(rucksack.Env("MET_REPORT_INTERVAL"))
+	if interval == 0 {
+		interval = time.Minute
+	}
+
 	// Create registry
-	registry = instruments.New(time.Minute, name+".", tags...)
+	registry = instruments.New(interval, name+".", tags...)
 	runtime.SetFinalizer(registry, func(r *instruments.Registry) { _ = r.Close() })
 }

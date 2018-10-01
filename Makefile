@@ -1,9 +1,7 @@
-PKG=$(shell go list ./... | grep -v vendor)
-
 default: vet test
 
 test:
-	go test $(PKG)
+	go test ./...
 
 vet:
-	go vet $(PKG)
+	go vet ./...
