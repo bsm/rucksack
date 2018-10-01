@@ -25,7 +25,7 @@ func (e logEntry) Write(status, bytes int, elapsed time.Duration) {
 		zap.String("method", e.Method),
 		zap.String("uri", e.RequestURI),
 		zap.String("remote", e.RemoteAddr),
-		zap.Float64("kB", math.Round(float64(bytes)/102.4)/10),
+		zap.Float64("kB", math.Ceil(float64(bytes)/102.4)/10),
 		zap.Duration("elapsed", elapsed),
 	)
 	if reqID := e.Header.Get("X-Request-Id"); reqID != "" {
