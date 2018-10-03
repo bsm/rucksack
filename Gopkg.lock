@@ -21,25 +21,6 @@
   version = "v1.3.3"
 
 [[projects]]
-  branch = "master"
-  digest = "1:8ecb89af7dfe3ac401bdb0c9390b134ef96a97e85f732d2b0604fb7b3977839f"
-  name = "github.com/codahale/hdrhistogram"
-  packages = ["."]
-  pruneopts = "NUT"
-  revision = "3a0bb77429bd3a61596f5e8a3172445844342120"
-
-[[projects]]
-  digest = "1:c38144c2e2d2cf5592dc55f08f69b491b15f4449c54e293710fe19ea0874fa90"
-  name = "github.com/go-chi/chi"
-  packages = [
-    ".",
-    "middleware",
-  ]
-  pruneopts = "NUT"
-  revision = "b5294d10673813fac8558e7f47242bc9e61b4c25"
-  version = "v3.3.3"
-
-[[projects]]
   digest = "1:41933d387bfa3eaa6a82647914ed7044f7b8355764c24fb920892bc8c03ef0c3"
   name = "github.com/hpcloud/tail"
   packages = [
@@ -52,14 +33,6 @@
   pruneopts = "NUT"
   revision = "a30252cb686a21eb2d0b98132633053ec2f7f1e5"
   version = "v1.0.0"
-
-[[projects]]
-  digest = "1:3402f56fa39aa1c38c1f3df1a5548ba16bf9c7afa6440d108ac3220e1328d730"
-  name = "github.com/kr/secureheader"
-  packages = ["."]
-  pruneopts = "NUT"
-  revision = "9ede93442296d5ede3632c633b3255558f4e4757"
-  version = "v0.2.0"
 
 [[projects]]
   digest = "1:b12d535f03d4db1f9b4ddbccc554748cf39a15a7e921523abe91602bda90121e"
@@ -111,67 +84,6 @@
   version = "v1.4.2"
 
 [[projects]]
-  digest = "1:7da29c22bcc5c2ffb308324377dc00b5084650348c2799e573ed226d8cc9faf0"
-  name = "github.com/opentracing/opentracing-go"
-  packages = [
-    ".",
-    "ext",
-    "log",
-  ]
-  pruneopts = "NUT"
-  revision = "1949ddbfd147afd4d964a9f00b24eb291e0e7c38"
-  version = "v1.0.2"
-
-[[projects]]
-  digest = "1:5cf3f025cbee5951a4ee961de067c8a89fc95a5adabead774f82822efabab121"
-  name = "github.com/pkg/errors"
-  packages = ["."]
-  pruneopts = "NUT"
-  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
-  version = "v0.8.0"
-
-[[projects]]
-  digest = "1:834585e9a99fcf1444f2fbe8c5210f9c278d853b5d0fdf843413a7458264751b"
-  name = "github.com/rs/cors"
-  packages = ["."]
-  pruneopts = "NUT"
-  revision = "3fb1b69b103a84de38a19c3c6ec073dd6caa4d3f"
-  version = "v1.5.0"
-
-[[projects]]
-  digest = "1:3d48c38e0eca8c66df62379c5ae7a83fb5cd839b94f241354c07ba077da7bc45"
-  name = "github.com/uber/jaeger-client-go"
-  packages = [
-    ".",
-    "config",
-    "internal/baggage",
-    "internal/baggage/remote",
-    "internal/spanlog",
-    "internal/throttler",
-    "internal/throttler/remote",
-    "log",
-    "rpcmetrics",
-    "thrift",
-    "thrift-gen/agent",
-    "thrift-gen/baggage",
-    "thrift-gen/jaeger",
-    "thrift-gen/sampling",
-    "thrift-gen/zipkincore",
-    "utils",
-  ]
-  pruneopts = "NUT"
-  revision = "b043381d944715b469fd6b37addfd30145ca1758"
-  version = "v2.14.0"
-
-[[projects]]
-  digest = "1:0f09db8429e19d57c8346ad76fbbc679341fa86073d3b8fb5ac919f0357d8f4c"
-  name = "github.com/uber/jaeger-lib"
-  packages = ["metrics"]
-  pruneopts = "NUT"
-  revision = "ed3a127ec5fef7ae9ea95b01b542c47fbd999ce5"
-  version = "v1.5.0"
-
-[[projects]]
   digest = "1:22f696cee54865fb8e9ff91df7b633f6b8f22037a8015253c6b6a71ca82219c7"
   name = "go.uber.org/atomic"
   packages = ["."]
@@ -204,16 +116,15 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:675d80f182eb6dc845363f5f6f29159c95ec84ce645b9bb15d05ae19b2afd5c8"
+  digest = "1:5193d913046443e59093d66a97a40c51f4a5ea4ceba60f3b3ecf89694de5d16f"
   name = "golang.org/x/net"
   packages = [
-    "context",
     "html",
     "html/atom",
     "html/charset",
   ]
   pruneopts = "NUT"
-  revision = "4dfa2610cdf3b287375bbba5b8f2a14d3b01d8de"
+  revision = "f5e5bdd778241bfefa8627f7124c39cd6ad8d74f"
 
 [[projects]]
   branch = "master"
@@ -280,14 +191,9 @@
   input-imports = [
     "github.com/bsm/instruments",
     "github.com/bsm/instruments/datadog",
-    "github.com/go-chi/chi",
-    "github.com/go-chi/chi/middleware",
-    "github.com/kr/secureheader",
     "github.com/onsi/ginkgo",
     "github.com/onsi/ginkgo/extensions/table",
     "github.com/onsi/gomega",
-    "github.com/rs/cors",
-    "github.com/uber/jaeger-client-go/config",
     "go.uber.org/zap",
     "go.uber.org/zap/zapcore",
   ]
