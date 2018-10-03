@@ -10,15 +10,15 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:e17a6ef5b1aa3cc015d4ee9af78773e64df6fd3a361235933d7ae1c781e99bce"
+  digest = "1:cd96f380af055c3f955e06e67a74cc6e98fecd73a180b7744c5d2e35feb2bfe4"
   name = "github.com/bsm/instruments"
   packages = [
     ".",
     "datadog",
   ]
   pruneopts = "NUT"
-  revision = "444d5a234ec8a4d2037e81848006510363a7fdb4"
-  version = "v1.3.3"
+  revision = "593bf869f9ccfae0671e7a104af43518dca7600a"
+  version = "v1.3.4"
 
 [[projects]]
   digest = "1:41933d387bfa3eaa6a82647914ed7044f7b8355764c24fb920892bc8c03ef0c3"
@@ -128,11 +128,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:79325523c76a32a00daae41a018570653948212a2b93838c83c571f6a68e48ef"
+  digest = "1:2a630d2aef0ae4ee50c2006745a43d854ded9dcb8bce0f181181d88d13da2614"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "NUT"
-  revision = "e4b3c5e9061176387e7cea65e4dc5853801f3fb7"
+  revision = "219bb53033fb8511ee74a8375a3bc672a727bdce"
 
 [[projects]]
   digest = "1:7c61a813b250ba8bb02bebb0382e6c3d00e04da2b577dc58985b86312fb89ffd"
