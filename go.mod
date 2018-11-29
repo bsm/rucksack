@@ -1,9 +1,10 @@
 module github.com/bsm/rucksack
 
 require (
-	github.com/bsm/histogram v2.0.0+incompatible // indirect
-	github.com/bsm/instruments v1.3.4
+	github.com/bsm/instruments v1.3.5
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/kr/pretty v0.1.0 // indirect
+	github.com/kr/pty v1.1.3 // indirect
 	github.com/onsi/ginkgo v1.7.0
 	github.com/onsi/gomega v1.4.3
 	github.com/pkg/errors v0.8.0 // indirect
