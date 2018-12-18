@@ -86,7 +86,7 @@ func init() {
 	// Parse interval
 	interval, _ := time.ParseDuration(rucksack.Env("MET_REPORT_INTERVAL"))
 	if interval == 0 {
-		interval = time.Minute
+		interval = 30 * time.Second
 	}
 
 	// Create registry
