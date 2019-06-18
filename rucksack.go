@@ -21,7 +21,7 @@ func Env(keys ...string) string {
 func Tags(s string) []string {
 	return strings.FieldsFunc(s, func(c rune) bool {
 		switch c {
-		case ':', '=':
+		case ':', '=', '_':
 			return false
 		default:
 			return !unicode.IsLetter(c) && !unicode.IsNumber(c)
