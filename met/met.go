@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/bsm/instruments"
-	"github.com/bsm/rucksack"
+	"github.com/bsm/rucksack/v3"
 )
 
 // Hostname returns the parsed hostname

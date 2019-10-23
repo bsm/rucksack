@@ -1,4 +1,4 @@
-module github.com/bsm/rucksack
+module github.com/bsm/rucksack/v3
 
 require (
 	github.com/bsm/instruments v1.3.8

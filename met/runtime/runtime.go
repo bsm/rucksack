@@ -27,7 +27,7 @@ import (
 	"time"
 
 	"github.com/bsm/instruments"
-	"github.com/bsm/rucksack/met"
+	"github.com/bsm/rucksack/v3/met"
 )
 
 var levels = make(map[string]bool)
