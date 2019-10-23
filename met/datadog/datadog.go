@@ -24,7 +24,7 @@ import (
 	"os"
 
 	"github.com/bsm/instruments/datadog"
-	"github.com/bsm/rucksack/v3/met"
+	"github.com/bsm/rucksack/v4/met"
 )
 
 func init() {

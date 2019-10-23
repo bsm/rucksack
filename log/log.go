@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/bsm/rucksack/v3"
+	"github.com/bsm/rucksack/v4"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
