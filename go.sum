@@ -1,7 +1,7 @@
 github.com/bsm/histogram v0.0.0-20190503142155-9ff1252a713d h1:RpHl+PPOBjYyDCLYN8S7AaepRxT0U42+0PuPePHdg2w=
 github.com/bsm/histogram v0.0.0-20190503142155-9ff1252a713d/go.mod h1:Eu1JyyMP59wsmrQKph0bEL4Obvj4hbWIB7hgZc1wAs4=
-github.com/bsm/instruments v1.3.8 h1:88CDQDKJgktfxguLjQEnemxhLLVd8oPIt79zh5bZhCg=
-github.com/bsm/instruments v1.3.8/go.mod h1:/sRBGN+bXqzIBJITiNwW5NC01CXorc45ECrars3iOEM=
+github.com/bsm/instruments v1.3.9 h1:KjofUVHE2OjZoAkUcbR5KgJLS/XKZ9hyi8W5JEqA16E=
+github.com/bsm/instruments v1.3.9/go.mod h1:/sRBGN+bXqzIBJITiNwW5NC01CXorc45ECrars3iOEM=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

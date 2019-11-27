@@ -1,7 +1,7 @@
 module github.com/bsm/rucksack/v4
 
 require (
-	github.com/bsm/instruments v1.3.8
+	github.com/bsm/instruments v1.3.9
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
