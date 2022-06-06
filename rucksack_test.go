@@ -1,34 +1,47 @@
-package rucksack
+package rucksack_test
 
 import (
+	"reflect"
 	"testing"
 
-	. "github.com/bsm/ginkgo"
-	. "github.com/bsm/ginkgo/extensions/table"
-	. "github.com/bsm/gomega"
+	. "github.com/bsm/rucksack/v4"
 )
 
-var _ = DescribeTable("Tags",
-	func(s string, exp []string) {
-		Expect(Tags(s)).To(Equal(exp))
-	},
+func expectTags(t *testing.T, s string, exp []string) {
+	t.Helper()
 
-	Entry("blank", "", []string{}),
-	Entry("simple", "a,b", []string{"a", "b"}),
-	Entry("spaced", "a ,  b", []string{"a", "b"}),
-)
+	if got := Tags(s); !reflect.DeepEqual(exp, got) {
+		t.Errorf("expected %v, got %v", exp, got)
+	}
+}
 
-var _ = DescribeTable("Fields",
-	func(s string, exp map[string]interface{}) {
-		Expect(Fields(s)).To(Equal(exp))
-	},
+func TestTags(t *testing.T) {
+	t.Run("blank", func(t *testing.T) {
+		expectTags(t, "", []string{})
+	})
+	t.Run("simple", func(t *testing.T) {
+		expectTags(t, "a,b", []string{"a", "b"})
+	})
+	t.Run("spaced", func(t *testing.T) {
+		expectTags(t, "a ,  b", []string{"a", "b"})
+	})
+}
 
-	Entry("blank", "", (map[string]interface{})(nil)),
-	Entry("simple", "k1:v1,k2:v2", map[string]interface{}{"k1": "v1", "k2": "v2"}),
-	Entry("with spaces", " k1:v1 ,   k2:v2", map[string]interface{}{"k1": "v1", "k2": "v2"}),
-)
+func expectFields(t *testing.T, s string, exp map[string]interface{}) {
+	t.Helper()
 
-func TestSuite(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "rucksack")
+	if got := Fields(s); !reflect.DeepEqual(exp, got) {
+		t.Errorf("expected %v, got %v", exp, got)
+	}
+}
+func TestFields(t *testing.T) {
+	t.Run("blank", func(t *testing.T) {
+		expectFields(t, "", nil)
+	})
+	t.Run("simple", func(t *testing.T) {
+		expectFields(t, "k1:v1,k2:v2", map[string]interface{}{"k1": "v1", "k2": "v2"})
+	})
+	t.Run("with spaces", func(t *testing.T) {
+		expectFields(t, " k1:v1 ,   k2:v2", map[string]interface{}{"k1": "v1", "k2": "v2"})
+	})
 }
