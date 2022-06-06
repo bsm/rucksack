@@ -20,7 +20,7 @@ jobs:
           go-version: ${{ matrix.go-version }}
           cache: true
       - name: Run tests
-        run: make test bench
+        run: make test
   golangci:
     runs-on: ubuntu-latest
     steps:
